@@ -3,6 +3,11 @@ import requests
 
 app = Flask(__name__)
 
+# Taaki main link kholne par 404 na aaye
+@app.route('/')
+def home():
+    return "<h1>API is Live!</h1><p>Use /check?u=username to check</p>"
+
 @app.route('/check')
 def check_username():
     user = request.args.get('u')
@@ -18,5 +23,6 @@ def check_username():
     else:
         return jsonify({"username": user, "Can Claim": False, "status": "Taken"})
 
-# Yeh line Vercel ko batati hai ki Flask app yahan hai
-app.run()
+# Isse Vercel pe chalne mein help milti hai
+def handler(event, context):
+    return app(event, context)
